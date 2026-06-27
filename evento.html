@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title id="page-title">Evento · Gimnasia Rítmica</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--accent:#00d4ff;--purple:#6b1a8a;--dark:#0d0618;--dark2:#1a0a2e;--gold:#f0c844;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--dark);color:#fff;min-height:100vh;}
+
+/* ── TOP NAV ── */
+.top-nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(13,6,24,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08);height:52px;display:flex;align-items:center;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1100px;margin:0 auto;padding:0 16px;}
+.nav-brand{font-size:16px;font-weight:900;color:var(--accent);cursor:pointer;letter-spacing:.5px;}
+.nav-links{display:flex;gap:4px;}
+.nav-btn{padding:6px 14px;border:none;background:transparent;color:rgba(255,255,255,.55);font-size:13px;font-weight:700;cursor:pointer;border-radius:6px;transition:all .15s;letter-spacing:.3px;}
+.nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,.09);color:#fff;}
+.nav-btn.active{color:var(--accent);}
+.nav-admin-btn{color:rgba(255,255,255,.3)!important;font-size:15px!important;padding:6px 10px!important;}
+.nav-admin-btn.logged{color:var(--gold)!important;}
+
+/* ── PAGE SECTIONS ── */
+.page-section{padding-top:52px;min-height:100vh;}
+.page-container{max-width:860px;margin:0 auto;padding:32px 16px;}
+.page-h{font-size:22px;font-weight:900;color:#fff;margin-bottom:6px;}
+.page-sub{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:28px;}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;text-align:center;padding:80px 20px 40px;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#3a0a6e 0%,#0d0618 45%,#0e1a6b 100%);z-index:0;}
+.hero-poster{position:absolute;inset:0;background-size:cover;background-position:center;z-index:1;opacity:0;transition:opacity .5s;}
+.hero-poster.loaded{opacity:.45;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,6,24,.2) 0%,rgba(13,6,24,.65) 55%,rgba(13,6,24,.97) 100%);z-index:2;}
+.hero-content{position:relative;z-index:3;max-width:860px;}
+.hero-tag{display:inline-block;padding:5px 18px;border:2px solid var(--accent);border-radius:20px;font-size:12px;font-weight:800;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:24px;}
+.hero-title{font-size:clamp(28px,6.5vw,72px);font-weight:900;line-height:1.05;letter-spacing:2px;text-transform:uppercase;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.8);margin-bottom:10px;}
+.hero-subtitle{font-size:clamp(14px,2.5vw,24px);font-weight:700;color:var(--accent);letter-spacing:4px;text-transform:uppercase;margin-bottom:28px;}
+.hero-meta{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;}
+.hero-meta-item{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:rgba(255,255,255,.85);}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-hero{padding:12px 28px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;border:2px solid;}
+.btn-ph{background:var(--accent);color:var(--dark);border-color:var(--accent);}
+.btn-ph:hover{background:#fff;border-color:#fff;}
+.btn-oh{background:transparent;color:#fff;border-color:rgba(255,255,255,.35);}
+.btn-oh:hover{background:rgba(255,255,255,.1);border-color:#fff;}
+
+/* ── INFO BAR ── */
+.info-bar{background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);}
+.info-bar-inner{display:flex;justify-content:center;flex-wrap:wrap;max-width:1000px;margin:0 auto;}
+.info-card{flex:1;min-width:140px;max-width:200px;padding:22px 14px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
+.info-card:last-child{border-right:none;}
+.info-card .ic-icon{font-size:26px;margin-bottom:7px;display:block;}
+.info-card .ic-label{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.info-card .ic-value{font-size:14px;font-weight:700;color:#fff;line-height:1.3;}
+
+/* ── CONTENT SECTIONS ── */
+.csection{padding:56px 20px;max-width:1000px;margin:0 auto;}
+.cs-alt{background:rgba(255,255,255,.018);padding:1px 0;}
+.section-head{display:flex;align-items:center;gap:14px;margin-bottom:32px;}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--accent),transparent);}
+.section-title-text{font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:3px;white-space:nowrap;}
+.desc-text{font-size:16px;line-height:1.8;color:rgba(255,255,255,.78);max-width:700px;}
+.cats-grid{display:flex;flex-wrap:wrap;gap:10px;}
+.cat-pill{padding:7px 18px;border:1.5px solid rgba(255,255,255,.14);border-radius:22px;font-size:13px;font-weight:700;color:rgba(255,255,255,.8);background:rgba(255,255,255,.04);transition:all .2s;}
+.cat-pill:hover{border-color:var(--accent);color:var(--accent);}
+.organiza-box{display:flex;align-items:flex-start;gap:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:26px 22px;}
+.organiza-icon{font-size:42px;flex-shrink:0;}
+.organiza-name{font-size:18px;font-weight:900;color:#fff;margin-bottom:5px;}
+.organiza-detail{font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;}
+.organiza-detail a{color:var(--accent);text-decoration:none;}
+.programa-table{width:100%;border-collapse:collapse;}
+.programa-table th{background:rgba(255,255,255,.05);color:var(--accent);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:10px 14px;text-align:left;}
+.programa-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px;color:rgba(255,255,255,.75);}
+.prog-hora{font-weight:800;color:var(--accent);}
+
+/* ── FOOTER ── */
+footer{background:#06030f;border-top:1px solid rgba(255,255,255,.06);padding:22px 20px;text-align:center;}
+.footer-brand{font-size:13px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:4px;}
+.footer-sub{font-size:11px;color:rgba(255,255,255,.18);}
+.admin-link{background:none;border:none;cursor:pointer;font-size:11px;color:rgba(255,255,255,.1);margin-top:14px;padding:4px 10px;border-radius:4px;transition:all .2s;}
+.admin-link:hover{color:rgba(255,255,255,.3);background:rgba(255,255,255,.05);}
+
+/* ── FORMS (shared) ── */
+.form-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:28px 24px;margin-bottom:20px;}
+.form-card-title{font-size:13px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:18px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.fg label{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.4px;}
+.fg input,.fg select,.fg textarea{padding:9px 12px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);border-radius:7px;color:#fff;font-size:14px;font-family:inherit;transition:border-color .15s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--accent);}
+.fg select option{background:#1a0a2e;color:#fff;}
+.fg textarea{resize:vertical;min-height:72px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 12px;}
+.full{grid-column:1/-1;}
+
+/* Tipo toggle */
+.tipo-toggle{display:flex;gap:0;border:1.5px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden;margin-bottom:18px;}
+.tipo-opt{display:none;}
+.tipo-lbl{flex:1;padding:9px 16px;cursor:pointer;font-size:13px;font-weight:700;color:rgba(255,255,255,.5);background:transparent;transition:all .15s;text-align:center;}
+.tipo-opt:checked+.tipo-lbl{background:rgba(255,255,255,.1);color:#fff;}
+
+/* File upload area */
+.file-drop{border:2px dashed rgba(255,255,255,.18);border-radius:9px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.02);}
+.file-drop:hover,.file-drop.over{border-color:var(--accent);background:rgba(0,212,255,.05);}
+.file-drop input{display:none;}
+.fd-icon{font-size:30px;margin-bottom:8px;}
+.fd-text{font-size:13px;color:rgba(255,255,255,.5);}
+.fd-hint{font-size:11px;color:rgba(255,255,255,.25);margin-top:4px;}
+.fd-name{font-size:13px;color:var(--accent);font-weight:700;margin-top:6px;}
+
+/* Aparatos */
+.ap-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:14px;margin-bottom:14px;}
+.ap-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;}
+.ap-combo-lbl{font-size:12px;color:rgba(255,255,255,.4);margin-top:8px;}
+.ap-combo-val{font-size:13px;color:var(--accent);font-weight:700;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;font-family:inherit;letter-spacing:.3px;}
+.btn-accent{background:var(--accent);color:var(--dark);}
+.btn-accent:hover{background:#fff;}
+.btn-outline{background:transparent;color:rgba(255,255,255,.6);border:1.5px solid rgba(255,255,255,.18);}
+.btn-outline:hover{background:rgba(255,255,255,.07);color:#fff;}
+.btn-danger{background:#c0392b;color:#fff;}
+.btn-danger:hover{background:#e74c3c;}
+.btn-sm{padding:5px 12px;font-size:12px;}
+.btn-lg{padding:13px 32px;font-size:15px;}
+.btn-full{width:100%;justify-content:center;}
+.btn-green{background:#27ae60;color:#fff;}
+.btn-green:hover{background:#2ecc71;}
+
+/* Alert */
+.alert{padding:12px 16px;border-radius:7px;font-size:13px;margin-bottom:14px;}
+.alert-ok{background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.3);color:#2ecc71;}
+.alert-err{background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.3);color:#e74c3c;}
+
+/* ── REGISTRATION SUCCESS ── */
+.success-box{text-align:center;padding:48px 20px;}
+.success-box .si{font-size:64px;margin-bottom:16px;}
+.success-box h2{font-size:22px;font-weight:900;margin-bottom:8px;}
+.success-box p{color:rgba(255,255,255,.55);font-size:14px;}
+
+/* ── ADMIN TABS ── */
+.admin-tabs{display:flex;gap:4px;margin-bottom:28px;background:rgba(255,255,255,.04);border-radius:10px;padding:5px;}
+.at-btn{flex:1;padding:9px 12px;border:none;background:transparent;color:rgba(255,255,255,.5);font-size:13px;font-weight:700;cursor:pointer;border-radius:7px;transition:all .15s;}
+.at-btn.active{background:rgba(255,255,255,.1);color:#fff;}
+
+/* ── INSCRIPTIONS TABLE ── */
+.insc-table{width:100%;border-collapse:collapse;font-size:13px;}
+.insc-table th{background:rgba(255,255,255,.05);color:var(--accent);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:9px 12px;text-align:left;font-weight:700;}
+.insc-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;}
+.insc-table tr:hover td{background:rgba(255,255,255,.025);}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;}
+.badge-ind{background:rgba(0,212,255,.15);color:var(--accent);}
+.badge-conj{background:rgba(107,26,138,.3);color:#c084fc;}
+.empty-state{text-align:center;padding:40px;color:rgba(255,255,255,.3);font-size:14px;}
+
+/* ── AUDIO PLAYER ── */
+.music-player{display:inline-flex;align-items:center;gap:8px;}
+.music-play-btn{background:rgba(0,212,255,.15);border:1px solid rgba(0,212,255,.3);color:var(--accent);border-radius:5px;padding:4px 10px;font-size:12px;cursor:pointer;font-weight:700;}
+.music-play-btn:hover{background:rgba(0,212,255,.25);}
+audio.mini{height:28px;max-width:160px;}
+
+/* ── ORDER CONFIG ── */
+.session-row{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.session-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--dark);font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.session-arrow{color:rgba(255,255,255,.3);font-size:18px;flex-shrink:0;}
+
+/* ── ORDER TABLE ── */
+.order-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.order-stats{font-size:13px;color:rgba(255,255,255,.45);}
+.order-stats strong{color:var(--accent);}
+.order-table{width:100%;border-collapse:collapse;font-size:13px;}
+.order-table th{background:rgba(255,255,255,.06);color:var(--accent);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:9px 12px;text-align:left;}
+.order-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;}
+.order-table tr:hover td{background:rgba(255,255,255,.025);}
+.order-num{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;}
+.order-hora{font-size:16px;font-weight:900;color:var(--accent);font-variant-numeric:tabular-nums;}
+.dur-ind{color:#64d8cb;}
+.dur-conj{color:#c084fc;}
+
+/* ── PASSWORD OVERLAY ── */
+#pw-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:2000;align-items:center;justify-content:center;}
+#pw-overlay.open{display:flex;}
+.pw-box{background:#1a0a2e;border-radius:14px;padding:32px;width:320px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.7);}
+.pw-box h3{font-size:16px;font-weight:800;color:#fff;margin-bottom:16px;}
+.pw-input{width:100%;padding:10px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.18);border-radius:7px;color:#fff;font-size:16px;text-align:center;letter-spacing:4px;margin-bottom:12px;font-family:inherit;}
+.pw-input:focus{outline:none;border-color:var(--accent);}
+.pw-err{color:#e74c3c;font-size:12px;margin-bottom:10px;display:none;}
+
+/* ── CONFIG ADMIN (modal) ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;overflow-y:auto;padding:20px;align-items:flex-start;justify-content:center;}
+.overlay.open{display:flex;}
+.admin-modal{background:#1a0a2e;border-radius:14px;width:100%;max-width:740px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6);margin:auto;}
+.am-head{background:#0d0618;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.09);}
+.am-head h2{font-size:15px;font-weight:900;color:var(--accent);}
+.close-btn{background:none;border:1px solid rgba(255,255,255,.18);color:#fff;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:14px;}
+.am-body{padding:22px;}
+.am-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
+.af{display:flex;flex-direction:column;gap:4px;}
+.af label{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;}
+.af input,.af textarea,.af select{padding:8px 11px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.13);border-radius:6px;color:#fff;font-size:13px;font-family:inherit;}
+.af input:focus,.af textarea:focus{outline:none;border-color:var(--accent);}
+.af textarea{resize:vertical;min-height:70px;}
+.af-full{grid-column:1/-1;}
+.af-check{flex-direction:row;align-items:center;gap:8px;}
+.af-check label{text-transform:none;letter-spacing:0;font-size:13px;color:rgba(255,255,255,.65);font-weight:600;}
+.am-sep{grid-column:1/-1;border:none;border-top:1px solid rgba(255,255,255,.08);margin:4px 0;}
+.am-sec-lbl{grid-column:1/-1;font-size:10px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-top:4px;}
+.poster-area{grid-column:1/-1;border:2px dashed rgba(255,255,255,.18);border-radius:9px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;}
+.poster-area:hover{border-color:var(--accent);}
+.poster-area input{display:none;}
+.poster-preview{max-width:180px;max-height:120px;border-radius:5px;border:2px solid rgba(255,255,255,.12);object-fit:cover;margin:8px auto 0;display:block;}
+.am-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
+
+/* ── PRINT ── */
+@media print{
+  .top-nav,.no-print{display:none!important;}
+  body{background:#fff;color:#000;}
+  .order-table th{background:#f0f0f0;color:#333;}
+  .order-table td{border-bottom:1px solid #ddd;color:#000;}
+  .order-hora{color:#0070b0;}
+  .badge-ind,.badge-conj{background:#eee;color:#333;}
+  .order-num{background:#eee;color:#333;}
+  .print-title{display:block!important;}
+}
+.print-title{display:none;font-size:22px;font-weight:900;color:#000;text-align:center;margin-bottom:20px;}
+
+[data-hidden]{display:none!important;}
+/* ── Category tabs ── */
+.cat-tab{background:rgba(0,212,255,.08);border:1.5px solid rgba(0,212,255,.2);color:rgba(255,255,255,.65);border-radius:8px;padding:6px 16px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:all .2s;}
+.cat-tab:hover,.cat-tab.active{background:rgba(0,212,255,.18);border-color:var(--accent);color:var(--accent);}
+/* ── Score input ── */
+.score-inp{width:72px;padding:6px 4px;background:rgba(0,212,255,.06);border:1.5px solid rgba(0,212,255,.18);border-radius:7px;color:#fff;font-size:13px;text-align:center;font-weight:700;}
+.score-inp:focus{outline:none;border-color:var(--accent);background:rgba(0,212,255,.12);}
+.score-total{width:80px;padding:6px 4px;background:rgba(0,212,255,.12);border:1.5px solid rgba(0,212,255,.35);border-radius:7px;color:var(--accent);font-size:14px;text-align:center;font-weight:900;}
+/* ── Podium medals ── */
+.medal-1{color:#FFD700;font-size:22px;}
+.medal-2{color:#C0C0C0;font-size:22px;}
+.medal-3{color:#CD7F32;font-size:22px;}
+/* ── Public results – blue gradient rows ── */
+.res-row{display:flex;align-items:center;margin-bottom:5px;border-radius:6px;overflow:hidden;background:linear-gradient(90deg,#0e2899 0%,#1a45cc 30%,#2255e0 60%,#1a45cc 85%,#0e2899 100%);min-height:54px;}
+.res-pos{width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;background:rgba(0,0,0,.25);align-self:stretch;}
+.res-photo-cell{width:46px;flex-shrink:0;align-self:stretch;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.15);}
+.res-photo-cell img{width:46px;height:100%;object-fit:cover;}
+.res-right{display:flex;align-items:center;gap:8px;padding-right:14px;flex-shrink:0;}
+.res-flag{width:38px;height:24px;border-radius:3px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;}
+.res-flag svg{display:block;}
+.res-region{font-size:11px;font-weight:800;color:rgba(255,255,255,.7);min-width:30px;text-align:left;}
+.res-score{font-size:22px;font-weight:900;color:#fff;min-width:78px;text-align:right;}
+.res-name{font-size:18px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.res-club-line{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px;font-weight:600;}
+.res-detail{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;font-family:monospace;}
+/* ── Admin score inputs (narrower for more columns) ── */
+.score-inp-sm{width:60px;padding:5px 3px;background:rgba(0,212,255,.06);border:1.5px solid rgba(0,212,255,.18);border-radius:7px;color:#fff;font-size:12px;text-align:center;font-weight:700;}
+.score-inp-sm:focus{outline:none;border-color:var(--accent);background:rgba(0,212,255,.12);}
+
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <div class="nav-brand" onclick="showSection('inicio')">🏅 GR</div>
+    <div class="nav-links">
+      <button class="nav-btn active" id="nb-inicio" onclick="showSection('inicio')">🏠 Inicio</button>
+      <button class="nav-btn" id="nb-inscripcion" onclick="showSection('inscripcion')">📋 Inscripción</button>
+      <button class="nav-btn" id="nb-club" onclick="showSection('club')">🏅 Mi Club</button>
+      <button class="nav-btn" id="nb-resultados" onclick="showSection('resultados')" style="display:none;">🏆 Resultados</button>
+      <button class="nav-btn nav-admin-btn" id="nb-admin" onclick="requireAdmin()">⚙</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     SECTION: INICIO
+════════════════════════════════════════════ -->
+<div id="s-inicio">
+
+<section class="hero" id="hero" style="padding-top:52px;">
+  <div class="hero-bg"></div>
+  <div class="hero-poster" id="hero-poster"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🏅 Gimnasia Rítmica</div>
+    <h1 class="hero-title" id="h-title">Campeonato de Gimnasia Rítmica</h1>
+    <div class="hero-subtitle" id="h-subtitle">COPA AUTONÓMICA BASE</div>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><span>📅</span><span id="h-fecha-fmt">15 de septiembre de 2026</span></div>
+      <div class="hero-meta-item"><span>⏰</span><span id="h-hora">09:00h</span></div>
+      <div class="hero-meta-item"><span>📍</span><span id="h-lugar">Pabellón Municipal, Barcelona</span></div>
+    </div>
+    <div class="hero-btns">
+      <a href="#" id="btn-insc-hero" class="btn-hero btn-ph" onclick="showSection('inscripcion');return false;" style="display:none">📋 Inscripción</a>
+      <a href="#" class="btn-hero btn-oh" onclick="document.getElementById('s-info').scrollIntoView({behavior:'smooth'});return false;">Más información ↓</a>
+    </div>
+  </div>
+</section>
+
+<div class="info-bar" id="s-info">
+  <div class="info-bar-inner">
+    <div class="info-card"><span class="ic-icon">📅</span><div class="ic-label">Fecha</div><div class="ic-value" id="ic-fecha">15 Sep 2026</div></div>
+    <div class="info-card"><span class="ic-icon">⏰</span><div class="ic-label">Hora de inicio</div><div class="ic-value" id="ic-hora">09:00h</div></div>
+    <div class="info-card"><span class="ic-icon">📍</span><div class="ic-label">Lugar</div><div class="ic-value" id="ic-lugar">Pabellón Municipal</div></div>
+    <div class="info-card"><span class="ic-icon">🏙️</span><div class="ic-label">Ciudad</div><div class="ic-value" id="ic-ciudad">Barcelona</div></div>
+    <div class="info-card"><span class="ic-icon">🏆</span><div class="ic-label">Categorías</div><div class="ic-value" id="ic-cats-n">—</div></div>
+  </div>
+</div>
+
+<div class="csection" id="desc-section">
+  <div class="section-head"><span class="section-title-text">Sobre el evento</span><div class="section-line"></div></div>
+  <p class="desc-text" id="s-desc">Bienvenidos al Campeonato de Gimnasia Rítmica. Un evento que reúne a las mejores gimnastas de la región en una jornada de deporte, arte y competición.</p>
+</div>
+
+<div class="cs-alt" id="cats-section">
+  <div class="csection">
+    <div class="section-head"><span class="section-title-text">Categorías participantes</span><div class="section-line"></div></div>
+    <div class="cats-grid" id="cats-grid"></div>
+  </div>
+</div>
+
+<div class="csection" id="programa-section" data-hidden>
+  <div class="section-head"><span class="section-title-text">Programa del día</span><div class="section-line"></div></div>
+  <table class="programa-table"><thead><tr><th>Hora</th><th>Descripción</th></tr></thead><tbody id="prog-body"></tbody></table>
+</div>
+
+<div class="cs-alt" id="org-section">
+  <div class="csection">
+    <div class="section-head"><span class="section-title-text">Organiza</span><div class="section-line"></div></div>
+    <div class="organiza-box">
+      <div class="organiza-icon">🤸</div>
+      <div>
+        <div class="organiza-name" id="s-organiza">Club de Gimnasia Rítmica</div>
+        <div class="organiza-detail" id="s-contacto">Para más información contacta con nosotros.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">🏅 Marcador GR · Gimnasia Rítmica</div>
+  <div class="footer-sub" id="f-copy">© 2026</div>
+  <br>
+  <button class="admin-link" onclick="requireAdmin()">⚙ Administrar</button>
+</footer>
+
+</div><!-- /s-inicio -->
+
+
+<!-- ════════════════════════════════════════════
+     SECTION: INSCRIPCIÓN (pública)
+════════════════════════════════════════════ -->
+<div id="s-inscripcion" class="page-section" style="display:none;">
+<div class="page-container">
+
+  <h2 class="page-h">📋 Inscripción de participantes</h2>
+  <p class="page-sub" id="insc-event-name">Cumplimenta los datos de tu gimnasta o conjunto</p>
+
+  <div id="insc-ok" style="display:none;">
+    <div class="success-box">
+      <div class="si">✅</div>
+      <h2>¡Inscripción enviada!</h2>
+      <p>Los datos han sido recibidos. El organizador los revisará y los añadirá al orden de salida.</p>
+      <br><br>
+      <button class="btn btn-accent btn-lg" onclick="resetInscForm()">➕ Inscribir otra gimnasta</button>
+      <div id="ok-club-btn" style="display:none;margin-top:12px;">
+        <button class="btn btn-outline btn-lg" onclick="volverAlClub()">← Volver a mi club</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="insc-form-wrap">
+    <div id="insc-alert" class="alert alert-err" style="display:none;"></div>
+
+    <!-- Tipo -->
+    <div class="form-card">
+      <div class="form-card-title">Tipo de participante</div>
+      <div class="tipo-toggle">
+        <input class="tipo-opt" type="radio" name="i-tipo" id="it-ind" value="individual" checked onchange="toggleInscTipo()">
+        <label class="tipo-lbl" for="it-ind">👤 Gimnasta Individual</label>
+        <input class="tipo-opt" type="radio" name="i-tipo" id="it-conj" value="conjunto" onchange="toggleInscTipo()">
+        <label class="tipo-lbl" for="it-conj">👥 Conjunto</label>
+      </div>
+
+      <!-- Individual fields -->
+      <div id="ii-ind">
+        <div class="grid2">
+          <div class="fg"><label>Nombre *</label><input type="text" id="i-name" placeholder="Nombre"></div>
+          <div class="fg"><label>Apellido/s *</label><input type="text" id="i-surname" placeholder="APELLIDOS"></div>
+        </div>
+        <div class="fg"><label>Disciplina / Aparato</label>
+          <select id="i-disc">
+            <option>ARO</option><option>PELOTA</option><option>MAZAS</option><option>CINTA</option><option>CUERDA</option><option>MANOS LIBRES</option>
+          </select></div>
+      </div>
+
+      <!-- Conjunto fields -->
+      <div id="ii-conj" style="display:none;">
+        <div class="fg"><label>Nombre del Conjunto *</label><input type="text" id="i-conjname" placeholder="Ej: CONJUNTO INFANTIL BARCELONA"></div>
+        <div class="ap-box">
+          <div style="font-size:10px;font-weight:800;color:rgba(0,212,255,.7);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">⚙ Aparatos (total 5 unidades)</div>
+          <div class="ap-row">
+            <div class="fg" style="flex:2;min-width:120px;"><label>Aparato 1</label>
+              <select id="i-ap1" onchange="recalcInscAp()"><option>ARO</option><option>PELOTA</option><option>MAZAS</option><option>CINTA</option><option>CUERDA</option><option>MANOS LIBRES</option></select></div>
+            <div class="fg" style="max-width:80px;"><label>Uds.</label>
+              <select id="i-n1" onchange="recalcInscAp()"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div style="align-self:flex-end;padding-bottom:8px;color:rgba(255,255,255,.3);font-size:18px;">+</div>
+            <div class="fg" style="flex:2;min-width:120px;"><label>Aparato 2 <span style="font-weight:400;color:rgba(255,255,255,.25);">(opcional)</span></label>
+              <select id="i-ap2" onchange="recalcInscAp()"><option value="">— Ninguno —</option><option>ARO</option><option>PELOTA</option><option>MAZAS</option><option>CINTA</option><option>CUERDA</option><option>MANOS LIBRES</option></select></div>
+            <div id="i-n2box" style="display:none;" class="fg" style="max-width:80px;"><label>Auto</label>
+              <div style="padding:9px 11px;background:rgba(0,212,255,.08);border:1.5px solid rgba(0,212,255,.2);border-radius:7px;font-weight:800;font-size:14px;color:var(--accent);" id="i-n2val">0</div></div>
+          </div>
+          <div class="ap-combo-lbl">Combinación: <span class="ap-combo-val" id="i-ap-combo">5 AROS</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Club info -->
+    <div class="form-card">
+      <div class="form-card-title">Datos del club</div>
+      <div class="grid2">
+        <div class="fg full"><label>Club *</label><input type="text" id="i-club" placeholder="Nombre del club"></div>
+        <div class="fg"><label>Región / CCAA</label><input type="text" id="i-region" placeholder="CAT, AND, MAD..."></div>
+        <div class="fg"><label>Bandera</label>
+          <select id="i-flag">
+            <option value="esp">🏴 España</option>
+            <option value="cat">🏴 Cataluña</option>
+            <option value="and">🏴 Andalucía</option>
+            <option value="mad">🏴 Madrid</option>
+            <option value="vlc">🏴 C. Valenciana</option>
+            <option value="gal">🏴 Galicia</option>
+            <option value="vas">🏴 País Vasco</option>
+            <option value="ara">🏴 Aragón</option>
+            <option value="cbr">🏴 Cantabria</option>
+            <option value="bal">🏴 Baleares</option>
+            <option value="can">🏴 Canarias</option>
+            <option value="ext">🏴 Extremadura</option>
+            <option value="mur">🏴 Murcia</option>
+            <option value="rio">🏴 La Rioja</option>
+            <option value="nav">🏴 Navarra</option>
+            <option value="cyl">🏴 Castilla y León</option>
+            <option value="clm">🏴 Castilla-La Mancha</option>
+            <option value="ast">🏴 Asturias</option>
+          </select></div>
+        <div class="fg"><label>Categoría</label>
+          <select id="i-cat">
+            <option>Prebenjamín</option><option>Benjamín</option><option>Alevín</option><option>Infantil</option>
+            <option>Cadete</option><option>Junior</option><option>Juvenil</option><option>Senior</option>
+            <option>Escolares A</option><option>Escolares B</option><option>Escolares C</option>
+            <option>Copa Base 4</option><option>Copa Base 5</option><option>Copa Base 6</option><option>Copa Base 7</option>
+            <option>Base 7</option><option>Absoluto</option><option>Primera Categoría</option>
+          </select></div>
+        <div class="fg"><label>Email de contacto</label><input type="email" id="i-email" placeholder="club@correo.es"></div>
+      </div>
+    </div>
+
+    <!-- Foto participante -->
+    <div class="form-card">
+      <div class="form-card-title">📷 Foto del participante <span style="font-weight:400;font-size:11px;color:rgba(255,255,255,.35);text-transform:none;letter-spacing:0;">(opcional)</span></div>
+      <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+        <div class="file-drop" id="fd-photo" style="flex:1;min-width:180px;" onclick="document.getElementById('i-photo-file').click()" ondragover="fdDragOver(event,'fd-photo')" ondragleave="fdDragLeave('fd-photo')" ondrop="fdDrop(event,'fd-photo','i-photo-file',handlePhotoFile)">
+          <input type="file" id="i-photo-file" accept="image/*" onchange="handlePhotoFile(this.files[0])">
+          <div class="fd-icon">📷</div>
+          <div class="fd-text">Arrastra aquí o haz clic</div>
+          <div class="fd-hint">JPG, PNG, WEBP…</div>
+          <div class="fd-name" id="fd-photo-name" style="display:none;"></div>
+        </div>
+        <div id="photo-preview-wrap" style="display:none;flex-shrink:0;">
+          <img id="photo-preview" src="" alt="Foto" style="width:110px;height:110px;object-fit:cover;border-radius:10px;border:2px solid rgba(0,212,255,.3);display:block;">
+          <button type="button" onclick="removePhoto()" style="margin-top:6px;width:100%;font-size:11px;background:rgba(255,60,60,.12);border:1px solid rgba(255,60,60,.25);color:rgba(255,100,100,.8);border-radius:6px;padding:3px 6px;cursor:pointer;">✕ Quitar foto</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Música -->
+    <div class="form-card">
+      <div class="form-card-title">🎵 Música de la actuación <span style="font-weight:400;font-size:11px;color:rgba(255,255,255,.35);text-transform:none;letter-spacing:0;">(opcional, se puede añadir más tarde)</span></div>
+      <div class="file-drop" id="fd-music" onclick="document.getElementById('i-music-file').click()" ondragover="fdDragOver(event,'fd-music')" ondragleave="fdDragLeave('fd-music')" ondrop="fdDrop(event,'fd-music','i-music-file',handleMusicFile)">
+        <input type="file" id="i-music-file" accept=".mp3,.ogg,.wav,.m4a,audio/*" onchange="handleMusicFile(this.files[0])">
+        <div class="fd-icon">🎵</div>
+        <div class="fd-text">Arrastra aquí o haz clic para seleccionar</div>
+        <div class="fd-hint">MP3, OGG, WAV o M4A</div>
+        <div class="fd-name" id="fd-music-name" style="display:none;"></div>
+      </div>
+      <div id="music-preview-wrap" style="display:none;margin-top:10px;">
+        <audio id="music-preview" controls style="width:100%;height:36px;"></audio>
+      </div>
+    </div>
+
+    <button class="btn btn-accent btn-lg btn-full" onclick="submitInscripcion()">📨 Enviar Inscripción</button>
+    <div style="height:24px;"></div>
+  </div>
+
+</div>
+</div><!-- /s-inscripcion -->
+
+
+<!-- ════════════════════════════════════════════
+     SECTION: MI CLUB
+════════════════════════════════════════════ -->
+<div id="s-club" class="page-section" style="display:none;">
+<div class="page-container">
+
+  <!-- LOGIN -->
+  <div id="club-login-wrap">
+    <h2 class="page-h">🏅 Acceso de Clubs</h2>
+    <p class="page-sub">Identifícate para gestionar las inscripciones de tu club en este evento</p>
+    <div class="form-card" style="max-width:480px;">
+      <div id="club-err" class="alert alert-err" style="display:none;"></div>
+      <div class="fg">
+        <label>Nombre del club *</label>
+        <input type="text" id="cl-nombre" placeholder="Club Gimnasia Rítmica Barcelona" onkeydown="if(event.key==='Enter')clubLogin()">
+      </div>
+      <div class="fg">
+        <label>Email de contacto *</label>
+        <input type="email" id="cl-email" placeholder="contacto@club.es" onkeydown="if(event.key==='Enter')clubLogin()">
+      </div>
+      <div class="fg" id="cl-pin-wrap" style="display:none;">
+        <label>Código de acceso del evento</label>
+        <input type="text" id="cl-pin" placeholder="Código proporcionado por el organizador" onkeydown="if(event.key==='Enter')clubLogin()" style="letter-spacing:3px;font-weight:700;">
+      </div>
+      <button class="btn btn-accent btn-full btn-lg" onclick="clubLogin()">Entrar al evento →</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="club-dash-wrap" style="display:none;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:22px;">
+      <div>
+        <h2 class="page-h" id="cd-title">Mi Club</h2>
+        <p class="page-sub" style="margin-bottom:0;" id="cd-email-txt"></p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-accent" onclick="clubAddGimnasta()">➕ Añadir gimnasta</button>
+        <button class="btn btn-outline btn-sm" onclick="clubLogout()">Cerrar sesión</button>
+      </div>
+    </div>
+    <div id="cd-stats" style="font-size:13px;color:rgba(255,255,255,.4);margin-bottom:18px;"></div>
+    <div id="cd-list"></div>
+  </div>
+
+</div>
+</div><!-- /s-club -->
+
+
+<!-- ════════════════════════════════════════════
+     SECTION: ADMIN (privado)
+════════════════════════════════════════════ -->
+<div id="s-admin" class="page-section" style="display:none;">
+<div class="page-container">
+
+  <h2 class="page-h">⚙ Panel de administración</h2>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;">
+    <p class="page-sub" style="margin:0;" id="admin-event-name">—</p>
+    <button class="btn btn-outline btn-sm" onclick="logout()">Cerrar sesión</button>
+  </div>
+
+  <div class="admin-tabs">
+    <button class="at-btn active" id="atb-inscripciones" onclick="showAdminTab('inscripciones')">📋 Inscripciones</button>
+    <button class="at-btn" id="atb-orden" onclick="showAdminTab('orden')">📅 Orden de Salida</button>
+    <button class="at-btn" id="atb-config" onclick="showAdminTab('config')">🎪 Evento</button>
+    <button class="at-btn" id="atb-resultados" onclick="showAdminTab('resultados')">🏆 Resultados</button>
+  </div>
+
+  <!-- TAB: INSCRIPCIONES -->
+  <div id="at-inscripciones">
+    <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;">
+      <div>
+        <span class="badge badge-ind" id="cnt-ind">0 ind.</span>&nbsp;
+        <span class="badge badge-conj" id="cnt-conj">0 conj.</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-outline btn-sm" onclick="exportInscJSON()">⬇ Exportar JSON</button>
+        <button class="btn btn-danger btn-sm" onclick="clearAllInsc()">🗑 Borrar todo</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="insc-table">
+        <thead><tr>
+          <th>📷</th><th>Tipo</th><th>Nombre / Conjunto</th><th>Club</th><th>Categoría</th><th>Aparato / Disciplina</th><th>🎵 Música</th><th></th>
+        </tr></thead>
+        <tbody id="insc-tbody">
+          <tr><td colspan="8"><div class="empty-state">No hay inscripciones todavía</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: ORDEN DE SALIDA -->
+  <div id="at-orden" style="display:none;">
+
+    <!-- Config panel -->
+    <div id="orden-config-panel">
+      <div class="form-card">
+        <div class="form-card-title">⏱ Tiempos</div>
+        <div class="grid3">
+          <div class="fg"><label>Hora de inicio</label><input type="time" id="o-hora" value="10:00"></div>
+          <div class="fg"><label>Transición entre act. (seg)</label><input type="number" id="o-trans" value="30" min="0" max="300"></div>
+          <div class="fg"><label>Pausa entre sesiones (min)</label><input type="number" id="o-pausa" value="15" min="0" max="60"></div>
+        </div>
+        <p style="font-size:11px;color:rgba(255,255,255,.35);margin-top:8px;">Individual: 90 s · Conjunto: 150 s. La transición es el tiempo entre el fin de una actuación y el inicio de la siguiente.</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">🔄 Sesiones de alternancia</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:14px;">Cada sesión alterna dos categorías (A, B, A, B…). Al acabar una, continúa la otra. Añade tantas sesiones como necesites.</p>
+        <div id="sesiones-list"></div>
+        <button class="btn btn-outline btn-sm" onclick="addSesion()">+ Añadir sesión</button>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-accent btn-lg" onclick="generateOrder()">⚡ Generar orden de salida</button>
+      </div>
+    </div>
+
+    <!-- Generated order -->
+    <div id="orden-result" style="display:none;margin-top:24px;">
+      <div class="print-title" id="print-title"></div>
+      <div class="order-header no-print">
+        <div>
+          <div style="font-size:16px;font-weight:900;margin-bottom:4px;">📅 Orden de Salida</div>
+          <div class="order-stats" id="order-stats"></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-outline btn-sm no-print" onclick="hideOrder()">✕ Cerrar</button>
+          <button class="btn btn-green btn-sm no-print" onclick="printOrder()">🖨 Imprimir</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="order-table">
+          <thead><tr><th>#</th><th>Hora</th><th>Tipo</th><th>Nombre / Conjunto</th><th>Club</th><th>Categoría</th><th>Aparato / Disciplina</th><th>Dur.</th></tr></thead>
+          <tbody id="order-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /at-orden -->
+
+  <!-- TAB: CONFIG EVENTO -->
+  <div id="at-config" style="display:none;">
+    <div class="am-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;">
+
+      <div class="am-sec-lbl">🎪 Información principal</div>
+      <div class="af af-full"><label>Título del evento</label><input type="text" id="a-titulo" placeholder="Campeonato de GR"></div>
+      <div class="af af-full"><label>Subtítulo</label><input type="text" id="a-subtitulo" placeholder="COPA AUTONÓMICA BASE"></div>
+      <div class="af"><label>Fecha</label><input type="date" id="a-fecha"></div>
+      <div class="af"><label>Hora de inicio</label><input type="time" id="a-hora"></div>
+      <div class="af"><label>Lugar / Pabellón</label><input type="text" id="a-lugar"></div>
+      <div class="af"><label>Ciudad</label><input type="text" id="a-ciudad"></div>
+      <div class="af af-full"><label>Descripción</label><textarea id="a-desc"></textarea></div>
+
+      <div class="am-sep"></div>
+      <div class="am-sec-lbl">🖼️ Cartel</div>
+      <div class="poster-area af-full" onclick="document.getElementById('a-poster-file').click()">
+        <input type="file" id="a-poster-file" accept="image/*" onchange="loadPosterFile(this)">
+        <div style="font-size:28px;margin-bottom:6px;">🖼️</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.4);">Haz clic para subir el cartel</div>
+        <img id="poster-preview-img" class="poster-preview" style="display:none;">
+      </div>
+      <div class="af af-full"><label>O URL del cartel</label><input type="url" id="a-poster-url" placeholder="https://..." oninput="previewPosterUrl(this.value)"></div>
+
+      <div class="am-sep"></div>
+      <div class="am-sec-lbl">🏆 Categorías</div>
+      <div class="af af-full"><label>Categorías participantes (una por línea)</label>
+        <textarea id="a-cats" style="min-height:120px;" placeholder="Prebenjamín&#10;Benjamín&#10;Alevín..."></textarea></div>
+
+      <div class="am-sep"></div>
+      <div class="am-sec-lbl">📋 Inscripciones</div>
+      <div class="af af-check af-full"><input type="checkbox" id="a-show-insc"><label for="a-show-insc">Mostrar botón de inscripción en la portada</label></div>
+
+      <div class="af af-check af-full"><input type="checkbox" id="a-show-res"><label for="a-show-res">Mostrar pestaña <strong>🏆 Resultados</strong> al público</label></div>
+
+      <div class="am-sep"></div>
+      <div class="am-sec-lbl">📅 Programa</div>
+      <div class="af af-check af-full"><input type="checkbox" id="a-show-prog"><label for="a-show-prog">Mostrar sección de programa</label></div>
+      <div class="af af-full"><label>Programa (HORA | DESCRIPCIÓN, una por línea)</label>
+        <textarea id="a-prog" style="min-height:90px;"></textarea></div>
+
+      <div class="am-sep"></div>
+      <div class="am-sec-lbl">🤸 Organización</div>
+      <div class="af af-full"><label>Club organizador</label><input type="text" id="a-organiza"></div>
+      <div class="af af-full"><label>Contacto</label><textarea id="a-contacto" style="min-height:56px;"></textarea></div>
+
+      <div class="am-sep"></div>
+      <div class="am-sec-lbl">🔐 Contraseña</div>
+      <div class="af"><label>Código de acceso para clubs <span style="text-transform:none;letter-spacing:0;font-size:9px;font-weight:400;">(vacío = libre acceso)</span></label><input type="text" id="a-clubpin" placeholder="ej: CLUB2026"></div>
+      <div class="af"><label>Nueva contraseña (dejar en blanco = no cambiar)</label><input type="password" id="a-newpwd"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);">
+      <button class="btn btn-accent btn-lg" onclick="saveConfig()">💾 Guardar cambios</button>
+    </div>
+  </div><!-- /at-config -->
+
+  <!-- TAB: RESULTADOS -->
+  <div id="at-resultados" style="display:none;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;">
+      <div class="a-section-title">🏆 Resultados en directo</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-accent btn-sm" onclick="renderAdminResultados()">🔄 Actualizar</button>
+        <button class="btn btn-outline btn-sm" onclick="exportResultados()">📥 Exportar CSV</button>
+      </div>
+    </div>
+    <div id="ar-cats" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;"></div>
+    <div id="ar-body"></div>
+  </div>
+
+</div>
+</div><!-- /s-admin -->
+<!-- ════════════════════════════════════════════
+     SECTION: RESULTADOS EN DIRECTO
+════════════════════════════════════════════ -->
+<div id="s-resultados" class="page-section" style="display:none;">
+<div class="page-container">
+
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+    <div>
+      <h2 class="page-h">🏆 Resultados en directo</h2>
+      <p class="page-sub" style="margin:0;" id="res-ts"></p>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="renderResultados()">🔄 Actualizar</button>
+  </div>
+
+  <!-- Estado: oculto por el organizador -->
+  <div id="res-hidden">
+    <div class="empty-state" style="padding:60px 20px;">
+      <div style="font-size:52px;margin-bottom:16px;">⏳</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Resultados próximamente</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.35);">El organizador activará los resultados cuando comience la competición.</div>
+    </div>
+  </div>
+
+  <!-- Contenido: resultados visibles -->
+  <div id="res-content" style="display:none;">
+    <div id="res-cats" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;"></div>
+    <div id="res-body"></div>
+  </div>
+
+</div>
+</div><!-- /s-resultados -->
+
+
+
+
+<!-- PASSWORD OVERLAY -->
+<div id="pw-overlay">
+  <div class="pw-box">
+    <h3>🔐 Administración</h3>
+    <input class="pw-input" type="password" id="pw-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPw()">
+    <div class="pw-err" id="pw-err">Contraseña incorrecta</div>
+    <button class="btn btn-accent btn-full" onclick="checkPw()">Entrar</button>
+    <br><br>
+    <button class="btn btn-outline btn-full btn-sm" onclick="closePwOverlay()">Cancelar</button>
+  </div>
+</div>
+
+
+
+<script>
+/* ════════════════════════════════════════════
+   CONSTANTS & STATE
+════════════════════════════════════════════ */
+var CONF_KEY='gr_ev_cfg_v1';
+var INSC_KEY='gr_ev_insc_v1';
+var DB_NAME='gr_evento_db';
+var DB_VER=1;
+var STORE='music';
+var MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+var AP_PL={ARO:'AROS',PELOTA:'PELOTAS',MAZAS:'MAZAS',CINTA:'CINTAS',CUERDA:'CUERDAS','MANOS LIBRES':'MANOS LIBRES'};
+var FLAGS={
+  esp:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="6" fill="#c60b1e"/><rect y="6" width="38" height="12" fill="#ffc400"/><rect y="18" width="38" height="6" fill="#c60b1e"/></svg>',
+  cat:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#FCDD09"/><rect y="0" width="38" height="5.3" fill="#DA121A"/><rect y="9.3" width="38" height="5.3" fill="#DA121A"/><rect y="18.7" width="38" height="5.3" fill="#DA121A"/></svg>',
+  and:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="8" fill="#007f3f"/><rect y="8" width="38" height="8" fill="#fff"/><rect y="16" width="38" height="8" fill="#007f3f"/></svg>',
+  mad:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="5.5" fill="#c60b1e"/><rect y="5.5" width="38" height="13" fill="#fff"/><rect y="18.5" width="38" height="5.5" fill="#c60b1e"/></svg>',
+  vlc:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="12.7" height="24" fill="#0032A0"/><rect x="12.7" width="12.6" height="24" fill="#FEDD00"/><rect x="25.3" width="12.7" height="24" fill="#C60B1E"/></svg>',
+  gal:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#fff"/><rect x="-2" y="9" width="50" height="6" transform="rotate(-35,19,12)" fill="#009FDB" opacity=".9"/></svg>',
+  vas:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#D52B1E"/><rect x="14" width="10" height="24" fill="#009A44"/><rect y="7" width="38" height="10" fill="#009A44"/><rect x="15" width="8" height="24" fill="#fff"/><rect y="8" width="38" height="8" fill="#fff"/></svg>',
+  ara:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#c60b1e"/><rect y="4" width="38" height="4" fill="#FCDD09"/><rect y="10" width="38" height="4" fill="#FCDD09"/><rect y="16" width="38" height="4" fill="#FCDD09"/></svg>',
+  cbr:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="12" fill="#C0392B"/><rect y="12" width="38" height="12" fill="#fff"/></svg>',
+  bal:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#1565C0"/><rect y="7" width="38" height="10" fill="#fff"/></svg>',
+  can:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="12.7" height="24" fill="#fff"/><rect x="12.7" width="12.6" height="24" fill="#009FDB"/><rect x="25.3" width="12.7" height="24" fill="#FFCE00"/></svg>',
+  ext:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="12" fill="#1B5E20"/><rect y="12" width="38" height="12" fill="#0D47A1"/></svg>',
+  mur:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#c60b1e"/><rect y="9" width="38" height="6" fill="#ffc400"/></svg>',
+  rio:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#c60b1e"/><rect y="7" width="38" height="10" fill="#007f3f"/></svg>',
+  nav:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#c60b1e"/><rect x="14" y="7" width="10" height="10" fill="#ffc400" opacity=".4"/></svg>',
+  cyl:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="19" height="24" fill="#8B0000"/><rect x="19" width="19" height="24" fill="#fff"/></svg>',
+  clm:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#c60b1e"/><rect y="8" width="38" height="8" fill="#ffc400"/></svg>',
+  ast:'<svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" fill="#007f3f"/><rect y="8" width="38" height="8" fill="#fff"/></svg>'
+};
+function getFlag(k){return FLAGS[k]||FLAGS.esp;}
+var CAT_ORDER=['Prebenjamín','Benjamín','Alevín','Infantil','Cadete','Junior','Juvenil','Senior','Escolares A','Escolares B','Escolares C','Copa Base 4','Copa Base 5','Copa Base 6','Copa Base 7','Base 7','Absoluto','Primera Categoría'];
+
+var cfg={};
+var inscripciones=[];
+var isAdmin=false;
+var pendingMusicFile=null;
+var pendingPhotoDataURL=null;
+var sesionesCount=0;
+
+/* ────── CONFIG ────── */
+var DEFAULTS={
+  titulo:'Campeonato de Gimnasia Rítmica',subtitulo:'COPA AUTONÓMICA BASE',
+  fecha:'2026-09-15',hora:'09:00',lugar:'Pabellón Municipal',ciudad:'Barcelona',
+  desc:'Bienvenidos al Campeonato de Gimnasia Rítmica. Un evento que reúne a las mejores gimnastas de la región en una jornada de deporte, arte y competición.',
+  poster:'',organiza:'Club de Gimnasia Rítmica',contacto:'',showInsc:true,showProg:false,
+  prog:'09:00 | Apertura de puertas\n10:00 | Inicio competición',
+  cats:'Prebenjamín\nBenjamín\nAlevín\nInfantil\nCadete\nJunior',adminPwd:'GR2024',clubPin:'',showResults:false
+};
+
+function loadCfg(){
+  try{var s=localStorage.getItem(CONF_KEY);cfg=s?Object.assign({},DEFAULTS,JSON.parse(s)):Object.assign({},DEFAULTS);}
+  catch(e){cfg=Object.assign({},DEFAULTS);}
+}
+function persistCfg(){localStorage.setItem(CONF_KEY,JSON.stringify(cfg));}
+function loadInsc(){
+  try{var s=localStorage.getItem(INSC_KEY);inscripciones=s?JSON.parse(s):[];}
+  catch(e){inscripciones=[];}
+}
+function persistInsc(){localStorage.setItem(INSC_KEY,JSON.stringify(inscripciones));}
+
+/* ────── INDEXEDDB (music) ────── */
+var _db=null;
+function openDB(cb){
+  if(_db){cb(_db);return;}
+  var r=indexedDB.open(DB_NAME,DB_VER);
+  r.onupgradeneeded=function(e){e.target.result.createObjectStore(STORE,{keyPath:'id'});};
+  r.onsuccess=function(e){_db=e.target.result;cb(_db);};
+  r.onerror=function(){cb(null);};
+}
+function saveMusic(id,file,cb){
+  openDB(function(db){
+    if(!db){if(cb)cb();return;}
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var tx=db.transaction(STORE,'readwrite');
+      tx.objectStore(STORE).put({id:id,name:file.name,type:file.type,data:e.target.result});
+      tx.oncomplete=function(){if(cb)cb();};
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+function getMusic(id,cb){
+  openDB(function(db){
+    if(!db){cb(null);return;}
+    var tx=db.transaction(STORE,'readonly');
+    var req=tx.objectStore(STORE).get(id);
+    req.onsuccess=function(e){cb(e.target.result||null);};
+    req.onerror=function(){cb(null);};
+  });
+}
+function deleteMusic(id){
+  openDB(function(db){
+    if(!db)return;
+    var tx=db.transaction(STORE,'readwrite');
+    tx.objectStore(STORE).delete(id);
+  });
+}
+
+/* ────── NAVIGATION ────── */
+var currentSection='inicio';
+function showSection(name){
+  ['inicio','inscripcion','club','resultados','admin'].forEach(function(s){
+    var el=document.getElementById('s-'+s);
+    if(el)el.style.display=(s===name)?'':'none';
+    var nb=document.getElementById('nb-'+s);
+    if(nb){nb.classList.toggle('active',s===name);}
+  });
+  currentSection=name;
+  window.scrollTo(0,0);
+  if(name==='resultados')renderResultados();
+}
+function requireAdmin(){
+  if(isAdmin){showSection('admin');return;}
+  document.getElementById('pw-err').style.display='none';
+  document.getElementById('pw-input').value='';
+  document.getElementById('pw-overlay').classList.add('open');
+  setTimeout(function(){document.getElementById('pw-input').focus();},80);
+}
+function closePwOverlay(){document.getElementById('pw-overlay').classList.remove('open');}
+function checkPw(){
+  if(document.getElementById('pw-input').value===cfg.adminPwd){
+    closePwOverlay();
+    isAdmin=true;
+    document.getElementById('nb-admin').classList.add('logged');
+    showSection('admin');
+    renderAdminInsc();
+    populateConfigForm();
+    initSesionesUI();
+  } else {
+    document.getElementById('pw-err').style.display='block';
+  }
+}
+function logout(){isAdmin=false;document.getElementById('nb-admin').classList.remove('logged');showSection('inicio');}
+
+/* ────── ADMIN TABS ────── */
+function showAdminTab(name){
+  ['inscripciones','orden','config','resultados'].forEach(function(t){
+    document.getElementById('at-'+t).style.display=(t===name)?'':'none';
+    document.getElementById('atb-'+t).classList.toggle('active',t===name);
+  });
+  if(name==='inscripciones')renderAdminInsc();
+  if(name==='resultados')renderAdminResultados();
+}
+
+/* ════════════════════════════════════════════
+   RENDER INICIO
+════════════════════════════════════════════ */
+var MONTHS_SHORT=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+function fmtLong(d){if(!d)return'';var p=d.split('-');return parseInt(p[2])+' de '+MONTHS[parseInt(p[1])-1]+' de '+p[0];}
+function fmtShort(d){if(!d)return'';var p=d.split('-');return parseInt(p[2])+' '+MONTHS_SHORT[parseInt(p[1])-1]+' '+p[0];}
+
+function renderInicio(){
+  var t=cfg.titulo||'';
+  document.title=t+' · GR';
+  document.getElementById('h-title').textContent=t;
+  document.getElementById('h-subtitle').textContent=cfg.subtitulo||'';
+  document.getElementById('h-fecha-fmt').textContent=fmtLong(cfg.fecha);
+  document.getElementById('h-hora').textContent=(cfg.hora||'')+'h';
+  document.getElementById('h-lugar').textContent=(cfg.lugar||'')+(cfg.ciudad?', '+cfg.ciudad:'');
+  document.getElementById('ic-fecha').textContent=fmtShort(cfg.fecha);
+  document.getElementById('ic-hora').textContent=(cfg.hora||'')+'h';
+  document.getElementById('ic-lugar').textContent=cfg.lugar||'';
+  document.getElementById('ic-ciudad').textContent=cfg.ciudad||'';
+  document.getElementById('s-desc').textContent=cfg.desc||'';
+  document.getElementById('s-organiza').textContent=cfg.organiza||'';
+  document.getElementById('f-copy').textContent='© '+((cfg.fecha||'').substring(0,4)||new Date().getFullYear())+' · '+(cfg.organiza||'');
+  document.getElementById('insc-event-name').textContent=t;
+  document.getElementById('admin-event-name').textContent=t;
+  // Contacto
+  var ctEl=document.getElementById('s-contacto');
+  var lines=(cfg.contacto||'').split('\n');
+  ctEl.innerHTML=lines.map(function(l){
+    l=l.trim();if(!l)return'';
+    if(l.match(/^https?:\/\//)||l.match(/^www\./))return'<a href="'+(l.startsWith('http')?l:'https://'+l)+'" target="_blank">'+l+'</a>';
+    if(l.match(/^[\w.+]+@[\w.]+$/))return'<a href="mailto:'+l+'">'+l+'</a>';
+    return l;
+  }).filter(Boolean).join('<br>');
+  // Poster
+  var p=cfg.poster;
+  var pe=document.getElementById('hero-poster');
+  if(p){pe.style.backgroundImage='url("'+p+'")';pe.classList.add('loaded');}
+  else{pe.style.backgroundImage='';pe.classList.remove('loaded');}
+  // Cats
+  var cats=(cfg.cats||'').split('\n').map(function(c){return c.trim();}).filter(Boolean);
+  document.getElementById('ic-cats-n').textContent=cats.length+' categoría'+(cats.length!==1?'s':'');
+  document.getElementById('cats-grid').innerHTML=cats.map(function(c){return'<div class="cat-pill">'+esc(c)+'</div>';}).join('');
+  // Inscripcion btn
+  document.getElementById('btn-insc-hero').style.display=cfg.showInsc?'':'none';
+  showClubPinIfNeeded();
+  var nbr=document.getElementById('nb-resultados');if(nbr)nbr.style.display=cfg.showResults?'':'none';
+  // Programa
+  var ps=document.getElementById('programa-section');
+  if(cfg.showProg){
+    ps.removeAttribute('data-hidden');
+    var lines2=(cfg.prog||'').split('\n').filter(function(l){return l.trim();});
+    document.getElementById('prog-body').innerHTML=lines2.map(function(l){
+      var pts=l.split('|');
+      return'<tr><td class="prog-hora">'+esc((pts[0]||'').trim())+'</td><td>'+esc((pts[1]||l).trim())+'</td></tr>';
+    }).join('');
+  } else {ps.setAttribute('data-hidden','');}
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ════════════════════════════════════════════
+   CONFIG FORM (admin tab)
+════════════════════════════════════════════ */
+function populateConfigForm(){
+  document.getElementById('a-titulo').value=cfg.titulo||'';
+  document.getElementById('a-subtitulo').value=cfg.subtitulo||'';
+  document.getElementById('a-fecha').value=cfg.fecha||'';
+  document.getElementById('a-hora').value=cfg.hora||'09:00';
+  document.getElementById('a-lugar').value=cfg.lugar||'';
+  document.getElementById('a-ciudad').value=cfg.ciudad||'';
+  document.getElementById('a-desc').value=cfg.desc||'';
+  document.getElementById('a-poster-url').value=(cfg.poster&&!cfg.poster.startsWith('data:'))?cfg.poster:'';
+  document.getElementById('a-organiza').value=cfg.organiza||'';
+  document.getElementById('a-contacto').value=cfg.contacto||'';
+  document.getElementById('a-show-insc').checked=!!cfg.showInsc;
+  document.getElementById('a-show-prog').checked=!!cfg.showProg;
+  document.getElementById('a-show-res').checked=!!cfg.showResults;
+  document.getElementById('a-prog').value=cfg.prog||'';
+  document.getElementById('a-cats').value=cfg.cats||'';
+  document.getElementById('a-clubpin').value=cfg.clubPin||'';
+  document.getElementById('a-newpwd').value='';
+  var prev=document.getElementById('poster-preview-img');
+  if(cfg.poster){prev.src=cfg.poster;prev.style.display='block';}
+  else prev.style.display='none';
+}
+function saveConfig(){
+  cfg.clubPin=document.getElementById('a-clubpin').value.trim();
+  var np=document.getElementById('a-newpwd').value.trim();
+  cfg.titulo=document.getElementById('a-titulo').value.trim()||cfg.titulo;
+  cfg.subtitulo=document.getElementById('a-subtitulo').value.trim();
+  cfg.fecha=document.getElementById('a-fecha').value;
+  cfg.hora=document.getElementById('a-hora').value;
+  cfg.lugar=document.getElementById('a-lugar').value.trim();
+  cfg.ciudad=document.getElementById('a-ciudad').value.trim();
+  cfg.desc=document.getElementById('a-desc').value.trim();
+  cfg.organiza=document.getElementById('a-organiza').value.trim();
+  cfg.contacto=document.getElementById('a-contacto').value.trim();
+  cfg.showInsc=document.getElementById('a-show-insc').checked;
+  cfg.showProg=document.getElementById('a-show-prog').checked;
+  cfg.showResults=document.getElementById('a-show-res').checked;
+  cfg.prog=document.getElementById('a-prog').value;
+  cfg.cats=document.getElementById('a-cats').value;
+  if(np)cfg.adminPwd=np;
+  var urlVal=document.getElementById('a-poster-url').value.trim();
+  if(urlVal)cfg.poster=urlVal;
+  persistCfg();
+  renderInicio();
+  alert('✅ Cambios guardados');
+}
+function loadPosterFile(input){
+  if(!input.files||!input.files[0])return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    cfg.poster=e.target.result;
+    var prev=document.getElementById('poster-preview-img');
+    prev.src=e.target.result;prev.style.display='block';
+    document.getElementById('a-poster-url').value='';
+    var pe=document.getElementById('hero-poster');
+    pe.style.backgroundImage='url("'+e.target.result+'")';pe.classList.add('loaded');
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function previewPosterUrl(url){
+  if(!url)return;
+  var prev=document.getElementById('poster-preview-img');
+  prev.src=url;prev.style.display='block';
+}
+
+/* ════════════════════════════════════════════
+   REGISTRATION FORM
+════════════════════════════════════════════ */
+function toggleInscTipo(){
+  var isConj=document.getElementById('it-conj').checked;
+  document.getElementById('ii-ind').style.display=isConj?'none':'';
+  document.getElementById('ii-conj').style.display=isConj?'':'none';
+}
+function recalcInscAp(){
+  var n1=parseInt(document.getElementById('i-n1').value)||5;
+  var ap2=document.getElementById('i-ap2').value;
+  var n2=ap2?Math.max(0,5-n1):0;
+  document.getElementById('i-n2box').style.display=ap2?'':'none';
+  document.getElementById('i-n2val').textContent=n2;
+  var ap1=document.getElementById('i-ap1').value;
+  var combo=n1+' '+(AP_PL[ap1]||ap1);
+  if(ap2&&n2>0)combo+=' + '+n2+' '+(AP_PL[ap2]||ap2);
+  document.getElementById('i-ap-combo').textContent=combo;
+}
+
+// Music file handling
+function handleMusicFile(file){
+  if(!file)return;
+  pendingMusicFile=file;
+  document.getElementById('fd-music-name').textContent='🎵 '+file.name;
+  document.getElementById('fd-music-name').style.display='';
+  var url=URL.createObjectURL(file);
+  document.getElementById('music-preview').src=url;
+  document.getElementById('music-preview-wrap').style.display='';
+}
+function handlePhotoFile(file){
+  if(!file)return;
+  if(!file.type.startsWith('image/')){return;}
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){
+      var MAX=400;
+      var w=img.width,h=img.height;
+      if(w>h){if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}}
+      else{if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}}
+      var canvas=document.createElement('canvas');
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      pendingPhotoDataURL=canvas.toDataURL('image/jpeg',0.85);
+      document.getElementById('photo-preview').src=pendingPhotoDataURL;
+      document.getElementById('photo-preview-wrap').style.display='';
+      document.getElementById('fd-photo-name').textContent='📷 '+file.name;
+      document.getElementById('fd-photo-name').style.display='';
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function removePhoto(){
+  pendingPhotoDataURL=null;
+  document.getElementById('photo-preview').src='';
+  document.getElementById('photo-preview-wrap').style.display='none';
+  document.getElementById('fd-photo-name').style.display='none';
+  document.getElementById('i-photo-file').value='';
+}
+// Drag & drop helpers
+function fdDragOver(e,id){e.preventDefault();document.getElementById(id).classList.add('over');}
+function fdDragLeave(id){document.getElementById(id).classList.remove('over');}
+function fdDrop(e,id,inputId,handler){
+  e.preventDefault();document.getElementById(id).classList.remove('over');
+  var file=e.dataTransfer&&e.dataTransfer.files[0];
+  if(file)handler(file);
+}
+
+function showInscAlert(msg){var el=document.getElementById('insc-alert');el.textContent=msg;el.style.display='';}
+function hideInscAlert(){document.getElementById('insc-alert').style.display='none';}
+
+function submitInscripcion(){
+  hideInscAlert();
+  var tipo=document.getElementById('it-conj').checked?'conjunto':'individual';
+  var name=(document.getElementById('i-name').value||'').trim();
+  var surname=(document.getElementById('i-surname').value||'').trim();
+  var conjname=(document.getElementById('i-conjname').value||'').trim();
+  var club=(document.getElementById('i-club').value||'').trim();
+  var cat=document.getElementById('i-cat').value;
+  var email=(document.getElementById('i-email').value||'').trim();
+
+  if(tipo==='individual'&&(!name||!surname)){showInscAlert('Por favor introduce nombre y apellido.');return;}
+  if(tipo==='conjunto'&&!conjname){showInscAlert('Por favor introduce el nombre del conjunto.');return;}
+  if(!club){showInscAlert('El club es obligatorio.');return;}
+
+  var id='i'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  var n1=parseInt(document.getElementById('i-n1').value)||5;
+  var ap1=document.getElementById('i-ap1').value;
+  var ap2=document.getElementById('i-ap2').value;
+  var n2=ap2?Math.max(0,5-n1):0;
+  var disc=tipo==='individual'?document.getElementById('i-disc').value:'CONJUNTOS';
+
+  var rec={
+    id:id,tipo:tipo,name:name,surname:surname,conjuntoName:conjname,
+    aparato1:tipo==='conjunto'?ap1:'',n1:tipo==='conjunto'?n1:0,
+    aparato2:tipo==='conjunto'?ap2:'',n2:tipo==='conjunto'?n2:0,
+    club:club.toUpperCase(),region:(document.getElementById('i-region').value||'').trim().toUpperCase(),
+    flag:document.getElementById('i-flag').value||'esp',
+    category:cat,discipline:disc,
+    contactEmail:email,photo:pendingPhotoDataURL||'',musicName:pendingMusicFile?pendingMusicFile.name:'',
+    createdAt:new Date().toISOString()
+  };
+
+  // Save music to IndexedDB if provided, then save record
+  function finishInsc(){
+    inscripciones.push(rec);
+    persistInsc();
+    pendingMusicFile=null;
+    pendingPhotoDataURL=null;
+    document.getElementById('insc-form-wrap').style.display='none';
+    document.getElementById('insc-ok').style.display='';
+  }
+  if(pendingMusicFile){
+    saveMusic(id,pendingMusicFile,finishInsc);
+  } else {
+    finishInsc();
+  }
+}
+function resetInscForm(){
+  document.getElementById('insc-form-wrap').style.display='';
+  document.getElementById('insc-ok').style.display='none';
+  document.getElementById('ok-club-btn').style.display='none';
+  document.getElementById('i-name').value='';
+  document.getElementById('i-surname').value='';
+  document.getElementById('i-conjname').value='';
+  // If in club mode, keep club pre-filled; otherwise clear it
+  if(!window._fromClub){
+    var ci=document.getElementById('i-club');ci.value='';ci.readOnly=false;ci.style.opacity='';
+  } else {
+    // Re-fill club field (stays locked)
+    if(clubSession){var ci=document.getElementById('i-club');ci.value=clubSession.nombre;ci.readOnly=true;ci.style.opacity='.6';}
+  }
+  document.getElementById('i-email').value=(!window._fromClub)?'':(clubSession?clubSession.email:'');
+  document.getElementById('i-region').value='';
+  document.getElementById('i-flag').value='esp';
+  document.getElementById('fd-music-name').style.display='none';
+  document.getElementById('music-preview-wrap').style.display='none';
+  document.getElementById('music-preview').src='';
+  pendingMusicFile=null;
+  removePhoto();
+  hideInscAlert();
+  // reset to individual
+  document.getElementById('it-ind').checked=true;
+  toggleInscTipo();
+  recalcInscAp();
+}
+
+/* ════════════════════════════════════════════
+   ADMIN: INSCRIPTIONS LIST
+════════════════════════════════════════════ */
+function aparatoStr(r){
+  if(r.tipo==='individual')return r.discipline||'—';
+  if(!r.aparato1)return'CONJUNTOS';
+  var s=r.n1+' '+(AP_PL[r.aparato1]||r.aparato1);
+  if(r.aparato2&&r.n2>0)s+=' + '+r.n2+' '+(AP_PL[r.aparato2]||r.aparato2);
+  return s;
+}
+function nombreStr(r){
+  if(r.tipo==='conjunto')return r.conjuntoName||'—';
+  return (r.name||'')+(r.surname?' '+r.surname:'');
+}
+
+function renderAdminInsc(){
+  var ind=inscripciones.filter(function(i){return i.tipo==='individual';}).length;
+  var conj=inscripciones.filter(function(i){return i.tipo==='conjunto';}).length;
+  document.getElementById('cnt-ind').textContent=ind+' ind.';
+  document.getElementById('cnt-conj').textContent=conj+' conj.';
+
+  var tbody=document.getElementById('insc-tbody');
+  if(!inscripciones.length){
+    tbody.innerHTML='<tr><td colspan="8"><div class="empty-state">No hay inscripciones todavía</div></td></tr>';
+    return;
+  }
+  var html='';
+  inscripciones.forEach(function(r){
+    var isConj=r.tipo==='conjunto';
+    html+='<tr>';
+    if(r.photo){
+      html+='<td><img src="'+r.photo+'" alt="foto" style="width:40px;height:40px;object-fit:cover;border-radius:6px;display:block;"></td>';
+    } else {
+      html+='<td><div style="width:40px;height:40px;border-radius:6px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:18px;">👤</div></td>';
+    }
+    html+='<td><span class="badge '+(isConj?'badge-conj':'badge-ind')+'">'+(isConj?'👥 Conj.':'👤 Ind.')+'</span></td>';
+    html+='<td><strong>'+esc(nombreStr(r))+'</strong></td>';
+    html+='<td>'+esc(r.club||'')+'</td>';
+    html+='<td>'+esc(r.category||'')+'</td>';
+    html+='<td>'+esc(aparatoStr(r))+'</td>';
+    if(r.musicName){
+      html+='<td><div class="music-player"><button class="music-play-btn" id="mpb-'+r.id+'" onclick="toggleMusicPlayer(\''+r.id+'\')">▶ '+esc(r.musicName)+'</button><audio id="mpa-'+r.id+'" controls style="display:none;height:30px;max-width:200px;margin-left:6px;" preload="none"></audio></div></td>';
+    } else {
+      html+='<td><span style="color:rgba(255,255,255,.25);font-size:12px;">Sin música</span></td>';
+    }
+    html+='<td><button class="btn btn-danger btn-sm" onclick="deleteInsc(\''+r.id+'\')">🗑</button></td>';
+    html+='</tr>';
+  });
+  tbody.innerHTML=html;
+}
+
+function toggleMusicPlayer(id){
+  var audioEl=document.getElementById('mpa-'+id);
+  var btn=document.getElementById('mpb-'+id);
+  if(!audioEl||!btn)return;
+  // If already has src, just toggle visibility
+  if(audioEl.src&&audioEl.src!==window.location.href){
+    var vis=audioEl.style.display==='none';
+    audioEl.style.display=vis?'':'none';
+    btn.textContent=(vis?'⏹ ':'▶ ')+btn.textContent.replace(/^[▶⏹] /,'');
+    return;
+  }
+  // Load from IndexedDB
+  btn.textContent='⏳ Cargando…';
+  getMusic(id,function(rec){
+    if(!rec){
+      btn.textContent='⚠ Sin música';
+      return;
+    }
+    var blob=new Blob([rec.data],{type:rec.type||'audio/mpeg'});
+    audioEl.src=URL.createObjectURL(blob);
+    audioEl.style.display='';
+    btn.textContent='⏹ '+btn.textContent.replace(/^[^A-Za-z0-9¡¿áéíóúñÁÉÍÓÚÑ.()_ -]+ ?/,'');
+  });
+}
+
+function deleteInsc(id){
+  if(!confirm('¿Eliminar esta inscripción?'))return;
+  inscripciones=inscripciones.filter(function(r){return r.id!==id;});
+  persistInsc();
+  deleteMusic(id);
+  renderAdminInsc();
+}
+function clearAllInsc(){
+  if(!confirm('¿Eliminar TODAS las inscripciones? Esta acción no se puede deshacer.'))return;
+  inscripciones.forEach(function(r){deleteMusic(r.id);});
+  inscripciones=[];
+  persistInsc();
+  renderAdminInsc();
+}
+function exportInscJSON(){
+  var data=JSON.stringify({evento:cfg.titulo,exportado:new Date().toISOString(),total:inscripciones.length,inscripciones:inscripciones},null,2);
+  var blob=new Blob([data],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='inscripciones_'+Date.now()+'.json';
+  a.click();
+}
+
+/* ════════════════════════════════════════════
+   ORDEN DE SALIDA
+════════════════════════════════════════════ */
+function getCatsFromInsc(){
+  var cats={};
+  inscripciones.forEach(function(r){if(r.category)cats[r.category]=true;});
+  // Return sorted by CAT_ORDER
+  return CAT_ORDER.filter(function(c){return cats[c];});
+}
+function buildCatOptions(currentVal){
+  var cats=getCatsFromInsc();
+  if(!cats.length)cats=CAT_ORDER;
+  var html='<option value="">— Seleccionar —</option>';
+  cats.forEach(function(c){
+    html+='<option value="'+esc(c)+'"'+(c===currentVal?' selected':'')+'>'+esc(c)+'</option>';
+  });
+  return html;
+}
+
+function initSesionesUI(){
+  // Load saved sessions from cfg or start with one
+  sesionesCount=0;
+  document.getElementById('sesiones-list').innerHTML='';
+  var saved=cfg.ordenSesiones||[{cat1:'',cat2:''}];
+  saved.forEach(function(s){addSesion(s.cat1,s.cat2);});
+  document.getElementById('o-hora').value=cfg.ordenHora||'10:00';
+  document.getElementById('o-trans').value=cfg.ordenTrans!=null?cfg.ordenTrans:30;
+  document.getElementById('o-pausa').value=cfg.ordenPausa!=null?cfg.ordenPausa:15;
+}
+function addSesion(cat1,cat2){
+  sesionesCount++;
+  var idx=sesionesCount;
+  var div=document.createElement('div');
+  div.className='session-row';
+  div.id='sesion-'+idx;
+  div.innerHTML=
+    '<div class="session-num">'+idx+'</div>'+
+    '<div class="fg" style="flex:1;min-width:140px;margin:0;"><label>Categoría A</label>'+
+    '<select id="sc1-'+idx+'" class="s-cat1">'+buildCatOptions(cat1||'')+'</select></div>'+
+    '<div class="session-arrow">⇄</div>'+
+    '<div class="fg" style="flex:1;min-width:140px;margin:0;"><label>Categoría B</label>'+
+    '<select id="sc2-'+idx+'" class="s-cat2">'+buildCatOptions(cat2||'')+'</select></div>'+
+    '<button class="btn btn-danger btn-sm" onclick="removeSesion('+idx+')" style="margin-left:auto;">✕</button>';
+  document.getElementById('sesiones-list').appendChild(div);
+}
+function removeSesion(idx){
+  var el=document.getElementById('sesion-'+idx);
+  if(el)el.remove();
+}
+function getSesionesFromUI(){
+  var rows=document.querySelectorAll('#sesiones-list .session-row');
+  var out=[];
+  rows.forEach(function(row){
+    var c1=row.querySelector('.s-cat1');
+    var c2=row.querySelector('.s-cat2');
+    if(c1&&c2)out.push({cat1:c1.value,cat2:c2.value});
+  });
+  return out;
+}
+
+// Time helpers
+function t2s(t){var p=(t||'00:00').split(':');return parseInt(p[0])*3600+parseInt(p[1]||0)*60;}
+function s2t(s){var h=Math.floor(s/3600);var m=Math.floor((s%3600)/60);return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');}
+function durStr(s){if(s<60)return s+'s';return Math.floor(s/60)+'h '+String(s%60).padStart(2,'0')+'m';}
+
+function generateOrder(){
+  var sesiones=getSesionesFromUI();
+  var horaInicio=document.getElementById('o-hora').value||'10:00';
+  var trans=parseInt(document.getElementById('o-trans').value)||30;
+  var pausa=parseInt(document.getElementById('o-pausa').value)||15;
+
+  // Save config
+  cfg.ordenSesiones=sesiones;cfg.ordenHora=horaInicio;cfg.ordenTrans=trans;cfg.ordenPausa=pausa;
+  persistCfg();
+
+  var currentSec=t2s(horaInicio);
+  var order=[];
+
+  sesiones.forEach(function(ses,si){
+    // Add pause between sessions (except first)
+    if(si>0)currentSec+=pausa*60;
+
+    var cat1=ses.cat1;var cat2=ses.cat2;
+    var list1=inscripciones.filter(function(r){return r.category===cat1;});
+    var list2=inscripciones.filter(function(r){return r.category===cat2;});
+
+    // Interleave A, B, A, B... until one runs out, then continue with remaining
+    var i=0,j=0,gi,di,gj,dj;
+    while(i<list1.length||j<list2.length){
+      if(i<list1.length){
+        gi=list1[i++];
+        di=gi.tipo==='conjunto'?150:90;
+        order.push({g:gi,hora:s2t(currentSec),dur:di,sesion:si+1});
+        currentSec+=di+trans;
+      }
+      if(j<list2.length){
+        gj=list2[j++];
+        dj=gj.tipo==='conjunto'?150:90;
+        order.push({g:gj,hora:s2t(currentSec),dur:dj,sesion:si+1});
+        currentSec+=dj+trans;
+      }
+    }
+  });
+
+  renderOrder(order,horaInicio,currentSec);
+}
+
+function renderOrder(order,start,endSec){
+  if(!order.length){alert('No hay gimnastas en las categorías seleccionadas. Revisa las inscripciones y las sesiones.');return;}
+
+  var totalMin=Math.round((endSec-t2s(start))/60);
+  var h=Math.floor(totalMin/60);var m=totalMin%60;
+  var durTotal=(h?h+'h ':'')+(m?m+'min':'');
+
+  document.getElementById('print-title').textContent=cfg.titulo+' — Orden de Salida';
+  document.getElementById('order-stats').innerHTML=
+    'Total: <strong>'+order.length+'</strong> actuaciones · '+
+    'Inicio: <strong>'+start+'</strong> · '+
+    'Fin estimado: <strong>'+s2t(endSec)+'</strong> · '+
+    'Duración: <strong>'+durTotal+'</strong>';
+
+  var html='';
+  var lastSesion=0;
+  order.forEach(function(entry,idx){
+    if(entry.sesion!==lastSesion){
+      html+='<tr style="background:rgba(0,212,255,.07);"><td colspan="8" style="padding:8px 12px;font-size:11px;font-weight:800;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;">— Sesión '+entry.sesion+' —</td></tr>';
+      lastSesion=entry.sesion;
+    }
+    var g=entry.g;
+    var isConj=g.tipo==='conjunto';
+    html+='<tr>';
+    html+='<td><div class="order-num">'+(idx+1)+'</div></td>';
+    html+='<td><div class="order-hora">'+entry.hora+'</div></td>';
+    html+='<td><span class="badge '+(isConj?'badge-conj':'badge-ind')+'">'+(isConj?'👥':'👤')+'</span></td>';
+    html+='<td><strong>'+esc(nombreStr(g))+'</strong></td>';
+    html+='<td>'+esc(g.club||'')+'</td>';
+    html+='<td>'+esc(g.category||'')+'</td>';
+    html+='<td>'+esc(aparatoStr(g))+'</td>';
+    html+='<td><span class="'+(isConj?'dur-conj':'dur-ind')+'" style="font-weight:700;">'+entry.dur+'s</span></td>';
+    html+='</tr>';
+  });
+  document.getElementById('order-tbody').innerHTML=html;
+  document.getElementById('orden-result').style.display='';
+  document.getElementById('orden-result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function hideOrder(){document.getElementById('orden-result').style.display='none';}
+function printOrder(){window.print();}
+
+
+
+/* ════════════════════════════════════════════
+   RESULTADOS EN DIRECTO
+════════════════════════════════════════════ */
+var RES_KEY='gr_ev_res_v1';
+var resultados=[];
+var _resCat=null;
+var _adminResCat=null;
+var _resRefreshTimer=null;
+
+function loadRes(){
+  try{var s=localStorage.getItem(RES_KEY);resultados=s?JSON.parse(s):[];}
+  catch(e){resultados=[];}
+}
+function persistRes(){localStorage.setItem(RES_KEY,JSON.stringify(resultados));}
+function getRes(inscId){return resultados.find(function(r){return r.inscId===inscId;})||null;}
+
+function inscData(insc){
+  return {
+    nombre: insc.tipo==='conjunto'?(insc.conjuntoName||'—'):((insc.name||'')+(insc.surname?' '+insc.surname:'').trim()),
+    club:   insc.club||'—',
+    category: insc.category||'Sin categoría',
+    tipo:   insc.tipo||'individual',
+    aparato:[insc.aparato1,insc.aparato2].filter(Boolean).join(' + ')||insc.discipline||'—',
+    region: insc.region||'',
+    flag:   insc.flag||'esp',
+    photo:  insc.photo||''
+  };
+}
+
+function saveResultado(inscId,db,da,a_pen,e,totalOverride){
+  db=parseFloat(db)||0; da=parseFloat(da)||0;
+  a_pen=parseFloat(a_pen)||0;
+  var a=parseFloat((10-a_pen).toFixed(3));
+  e=parseFloat(e)||0;
+  var d=parseFloat((db+da).toFixed(3));
+  var auto=parseFloat((d+a+e).toFixed(3));
+  var nota=(totalOverride!==undefined&&totalOverride!==''&&totalOverride!=='')?parseFloat(totalOverride)||auto:auto;
+  nota=Math.max(0,nota);
+  var existing=resultados.find(function(r){return r.inscId===inscId;});
+  if(existing){
+    existing.db=db;existing.da=da;existing.d=d;
+    existing.a_pen=a_pen;existing.a=a;existing.e=e;existing.nota=nota;
+    existing.ts=Date.now();
+  } else {
+    var insc=inscripciones.find(function(r){return r.id===inscId;});
+    var d2=insc?inscData(insc):{nombre:'—',club:'—',category:'Sin categoría',tipo:'individual',aparato:'—',region:'',flag:'esp',photo:''};
+    resultados.push(Object.assign({inscId:inscId,db:db,da:da,d:d,a_pen:a_pen,a:a,e:e,nota:nota,ts:Date.now()},d2));
+  }
+  persistRes();
+}
+
+function deleteResultado(inscId){
+  resultados=resultados.filter(function(r){return r.inscId!==inscId;});
+  persistRes();
+}
+
+function catsFromInsc(){
+  var cats={};
+  inscripciones.forEach(function(r){var c=r.category||'Sin categoría';if(!cats[c])cats[c]=[];cats[c].push(r);});
+  return cats;
+}
+function catsFromRes(){
+  var cats={};
+  resultados.forEach(function(r){var c=r.category||'Sin categoría';if(!cats[c])cats[c]=[];cats[c].push(r);});
+  return cats;
+}
+
+/* ── PUBLIC: render resultados ── */
+function renderResultados(){
+  loadRes();
+  var isVisible=cfg.showResults;
+  document.getElementById('res-hidden').style.display=isVisible?'none':'';
+  document.getElementById('res-content').style.display=isVisible?'':'none';
+  var ts=document.getElementById('res-ts');
+  if(ts)ts.textContent=isVisible?('Actualizado: '+new Date().toLocaleTimeString()):'';
+
+  if(!isVisible)return;
+
+  var cats=catsFromRes();
+  var catNames=Object.keys(cats).sort();
+  var rcats=document.getElementById('res-cats');
+  var rbody=document.getElementById('res-body');
+
+  if(!catNames.length){
+    rcats.innerHTML='';
+    rbody.innerHTML='<div class="empty-state" style="padding:52px 20px;text-align:center;"><div style="font-size:48px;margin-bottom:12px;">🏅</div><div>La competición está a punto de comenzar...<br>Los resultados aparecerán aquí.</div></div>';
+    return;
+  }
+
+  if(!_resCat||!cats[_resCat])_resCat=catNames[0];
+
+  rcats.innerHTML=catNames.map(function(c){
+    return '<button class="cat-tab'+(c===_resCat?' active':'')+'" onclick="_resCat='+JSON.stringify(c)+';renderResultados()">'+esc(c)+'</button>';
+  }).join('');
+
+  var entries=(cats[_resCat]||[]).slice().sort(function(a,b){
+    return (b.nota!==undefined?b.nota:(b.total||0))-(a.nota!==undefined?a.nota:(a.total||0));
+  });
+
+  var html='';
+  entries.forEach(function(r,i){
+    var posText;
+    if(i===0)posText='🥇';
+    else if(i===1)posText='🥈';
+    else if(i===2)posText='🥉';
+    else posText=(i+1)+'°';
+
+    var nota=r.nota!==undefined?r.nota:(r.total||0);
+    var photo=r.photo||'';
+    var photoCell=photo
+      ?'<div class="res-photo-cell"><img src="'+photo+'" alt=""></div>'
+      :'<div class="res-photo-cell"><div style="width:46px;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.2;">'+(r.tipo==='conjunto'?'👥':'👤')+'</div></div>';
+
+    var flagKey=r.flag||'esp';
+    var flagCell='<div class="res-flag">'+getFlag(flagKey)+'</div>';
+
+    var detalle='';
+    if(r.db!==undefined){
+      var dv=r.d!==undefined?r.d.toFixed(3):'—';
+      var av=r.a!==undefined?r.a.toFixed(3):'—';
+      var ev=r.e!==undefined?r.e.toFixed(3):'—';
+      detalle='<div class="res-detail">D:'+dv+' · A:'+av+' · E:'+ev+'</div>';
+    }
+
+    html+='<div class="res-row">';
+    html+='<div class="res-pos">'+posText+'</div>';
+    html+=photoCell;
+    html+='<div style="flex:1;padding:7px 12px;min-width:0;">';
+    html+='<div class="res-name">'+esc(r.nombre)+'</div>';
+    html+='<div class="res-club-line">'+esc(r.club)+(r.aparato?' · '+esc(r.aparato):'')+'</div>';
+    html+=detalle;
+    html+='</div>';
+    html+='<div class="res-right">';
+    html+=flagCell;
+    html+='<span class="res-region">'+esc(r.region||'')+'</span>';
+    html+='<span class="res-score">'+nota.toFixed(3)+'</span>';
+    html+='</div>';
+    html+='</div>';
+  });
+  rbody.innerHTML=html;
+
+  if(!_resRefreshTimer){
+    _resRefreshTimer=setInterval(function(){
+      if(document.getElementById('s-resultados').style.display!=='none'){renderResultados();}
+    },15000);
+  }
+}
+
+/* ── ADMIN: render resultados entry ── */
+function renderAdminResultados(){
+  loadRes();
+  var cats=catsFromInsc();
+  var catNames=Object.keys(cats).sort();
+  var arcats=document.getElementById('ar-cats');
+  var arbody=document.getElementById('ar-body');
+
+  if(!catNames.length){
+    arcats.innerHTML='';
+    arbody.innerHTML='<div class="empty-state" style="padding:36px;">No hay inscripciones. Añade participantes primero.</div>';
+    return;
+  }
+
+  if(!_adminResCat||!cats[_adminResCat])_adminResCat=catNames[0];
+
+  arcats.innerHTML=catNames.map(function(c){
+    var done=resultados.filter(function(r){return r.category===c;}).length;
+    var tot=cats[c].length;
+    return '<button class="cat-tab'+(c===_adminResCat?' active':'')+'" onclick="_adminResCat='+JSON.stringify(c)+';renderAdminResultados()">'+esc(c)+' <span style="opacity:.55;">('+done+'/'+tot+')</span></button>';
+  }).join('');
+
+  var inscs=cats[_adminResCat]||[];
+  var html='<div style="overflow-x:auto;"><table class="insc-table">';
+  html+='<thead><tr>';
+  html+='<th style="width:36px;">✔</th>';
+  html+='<th>Gimnasta / Conjunto</th>';
+  html+='<th>Club</th>';
+  html+='<th>Aparato</th>';
+  html+='<th title="Dificultad Cuerpo" style="color:#a0cfff;">DB</th>';
+  html+='<th title="Dificultad Aparato" style="color:#a0cfff;">DA</th>';
+  html+='<th title="Penalización Artístico">Pen.A</th>';
+  html+='<th title="A = 10 − Pen.A" style="color:#4ade80;">A</th>';
+  html+='<th title="Ejecución" style="color:#a0cfff;">E</th>';
+  html+='<th style="color:var(--accent);">NOTA</th>';
+  html+='<th></th>';
+  html+='</tr></thead><tbody>';
+
+  inscs.forEach(function(insc){
+    var r=getRes(insc.id);
+    var ok=!!r;
+    var estado=ok
+      ?'<span style="color:#4ade80;font-size:17px;" title="Anotado">✅</span>'
+      :'<span style="color:rgba(255,255,255,.2);font-size:17px;" title="Pendiente">○</span>';
+    var d=insc;
+    var nombre=insc.tipo==='conjunto'?(insc.conjuntoName||'—'):((insc.name||'')+' '+(insc.surname||'')).trim();
+    var ap=[insc.aparato1,insc.aparato2].filter(Boolean).join(' + ')||insc.discipline||'—';
+    var dbv=ok&&r.db!==undefined?r.db:''; var dav=ok&&r.da!==undefined?r.da:''; var penv=ok&&r.a_pen!==undefined?r.a_pen:''; var av=ok&&r.a!==undefined?r.a.toFixed(3):'—'; var ev2=ok&&r.e!==undefined?r.e:''; var tv=ok&&r.nota!==undefined?r.nota.toFixed(3):(ok&&r.total!==undefined?r.total.toFixed(3):'');
+    var rowbg=ok?'background:rgba(74,222,128,.04);':'';
+    html+='<tr id="ar-row-'+insc.id+'" style="'+rowbg+'">';
+    html+='<td style="text-align:center;">'+estado+'</td>';
+    html+='<td><strong>'+esc(nombre)+'</strong><div style="font-size:10px;color:rgba(255,255,255,.35);">'+esc(insc.tipo==='conjunto'?'Conjunto':'Individual')+'</div></td>';
+    html+='<td style="font-size:12px;">'+esc(insc.club||'—')+'</td>';
+    html+='<td style="font-size:11px;white-space:nowrap;">'+esc(ap)+'</td>';
+    html+='<td><input class="score-inp-sm" type="number" id="ar-db-'+insc.id+'" value="'+dbv+'" min="0" max="10" step="0.05" placeholder="0.00" oninput="arAutoTotal(\''+insc.id+'\')"></td>';
+    html+='<td><input class="score-inp-sm" type="number" id="ar-da-'+insc.id+'" value="'+dav+'" min="0" max="10" step="0.05" placeholder="0.00" oninput="arAutoTotal(\''+insc.id+'\')"></td>';
+    html+='<td><input class="score-inp-sm" type="number" id="ar-pen-'+insc.id+'" value="'+penv+'" min="0" max="10" step="0.05" placeholder="0.00" oninput="arAutoTotal(\''+insc.id+'\')"></td>';
+    html+='<td style="text-align:center;font-size:13px;font-weight:700;color:#4ade80;min-width:40px;" id="ar-a-'+insc.id+'">'+av+'</td>';
+    html+='<td><input class="score-inp-sm" type="number" id="ar-e-'+insc.id+'" value="'+ev2+'" min="0" max="10" step="0.05" placeholder="0.00" oninput="arAutoTotal(\''+insc.id+'\')"></td>';
+    html+='<td><input class="score-total" type="number" id="ar-t-'+insc.id+'" value="'+tv+'" min="0" step="0.001" placeholder="NOTA" style="width:72px;"></td>';
+    html+='<td style="white-space:nowrap;">';
+    html+='<button class="btn btn-accent btn-sm" onclick="arSave(\''+insc.id+'\')">💾</button>';
+    if(ok)html+=' <button class="btn btn-danger btn-sm" onclick="arDel(\''+insc.id+'\')">✕</button>';
+    html+='</td>';
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  html+='<div style="font-size:11px;color:rgba(255,255,255,.25);margin-top:12px;">💡 Fórmula RFEG: <strong style="color:rgba(0,212,255,.6);">NOTA = DB + DA + A(=10−Pen.A) + E</strong> · Los campos se calculan automáticamente.</div>';
+  arbody.innerHTML=html;
+}
+
+function arAutoTotal(inscId){
+  var db=parseFloat(document.getElementById('ar-db-'+inscId).value)||0;
+  var da=parseFloat(document.getElementById('ar-da-'+inscId).value)||0;
+  var apen=parseFloat(document.getElementById('ar-pen-'+inscId).value)||0;
+  var a=parseFloat((10-apen).toFixed(3));
+  var e=parseFloat(document.getElementById('ar-e-'+inscId).value)||0;
+  var aEl=document.getElementById('ar-a-'+inscId);
+  if(aEl)aEl.textContent=a.toFixed(3);
+  var nota=Math.max(0,db+da+a+e);
+  var t=document.getElementById('ar-t-'+inscId);
+  if(t)t.value=nota.toFixed(3);
+}
+
+function arSave(inscId){
+  var db=document.getElementById('ar-db-'+inscId).value;
+  var da=document.getElementById('ar-da-'+inscId).value;
+  var apen=document.getElementById('ar-pen-'+inscId).value;
+  var e=document.getElementById('ar-e-'+inscId).value;
+  var t=document.getElementById('ar-t-'+inscId).value;
+  saveResultado(inscId,db,da,apen,e,t);
+  renderAdminResultados();
+}
+
+function arDel(inscId){
+  if(!confirm('¿Eliminar el resultado de esta participante?'))return;
+  deleteResultado(inscId);
+  renderAdminResultados();
+}
+
+function exportResultados(){
+  loadRes();
+  if(!resultados.length){alert('No hay resultados para exportar.');return;}
+  var rows=[['Posición','Categoría','Tipo','Nombre/Conjunto','Club','Aparato','DB','DA','D','Pen.A','A','E','NOTA']];
+  var cats=catsFromRes();
+  Object.keys(cats).sort().forEach(function(cat){
+    var sorted=cats[cat].slice().sort(function(a,b){return(b.nota||b.total||0)-(a.nota||a.total||0);});
+    sorted.forEach(function(r,i){
+      rows.push([i+1,cat,r.tipo,r.nombre,r.club,r.aparato||'—',r.db||0,r.da||0,r.d||0,r.a_pen||0,r.a||0,r.e||0,r.nota||r.total||0]);
+    });
+  });
+  var csv=rows.map(function(r){return r.map(function(v){return'"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='resultados.csv';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
+}
+
+/* ════════════════════════════════════════════
+   CLUB SESSION
+════════════════════════════════════════════ */
+var clubSession=null;
+
+function showClubPinIfNeeded(){
+  var need=cfg.clubPin&&cfg.clubPin.trim();
+  var w=document.getElementById('cl-pin-wrap');
+  if(w)w.style.display=need?'':'none';
+}
+
+function clubLogin(){
+  var nombre=(document.getElementById('cl-nombre').value||'').trim();
+  var email=(document.getElementById('cl-email').value||'').trim();
+  var pin=(document.getElementById('cl-pin').value||'').trim();
+  var err=document.getElementById('club-err');
+  if(!nombre){err.textContent='Introduce el nombre del club.';err.style.display='';return;}
+  if(!email||!email.includes('@')){err.textContent='Introduce un email v\u00e1lido.';err.style.display='';return;}
+  if(cfg.clubPin&&cfg.clubPin.trim()&&pin!==cfg.clubPin.trim()){
+    err.textContent='C\u00f3digo de acceso incorrecto.';err.style.display='';return;
+  }
+  clubSession={nombre:nombre,email:email};
+  err.style.display='none';
+  document.getElementById('club-login-wrap').style.display='none';
+  document.getElementById('club-dash-wrap').style.display='';
+  renderClubDash();
+}
+
+function clubLogout(){
+  clubSession=null;
+  window._fromClub=false;
+  document.getElementById('club-login-wrap').style.display='';
+  document.getElementById('club-dash-wrap').style.display='none';
+  document.getElementById('cl-nombre').value='';
+  document.getElementById('cl-email').value='';
+  document.getElementById('cl-pin').value='';
+}
+
+function renderClubDash(){
+  if(!clubSession)return;
+  document.getElementById('cd-title').textContent='\ud83c\udfc5 '+clubSession.nombre;
+  document.getElementById('cd-email-txt').textContent=clubSession.email;
+  var mis=inscripciones.filter(function(r){
+    return(r.club||'').toLowerCase()===clubSession.nombre.toLowerCase();
+  });
+  document.getElementById('cd-stats').textContent=
+    mis.length
+      ? mis.length+' inscripci\u00f3n'+(mis.length!==1?'es':'')+' registrada'+(mis.length!==1?'s':'')+' para este evento'
+      : 'Todav\u00eda no has inscrito ninguna gimnasta';
+  if(!mis.length){
+    document.getElementById('cd-list').innerHTML=
+      '<div class="empty-state" style="padding:48px 20px;">'+
+      '<div style="font-size:48px;margin-bottom:14px;">\ud83e\udd38</div>'+
+      '<div>Todav\u00eda no hay inscripciones de <strong>'+esc(clubSession.nombre)+'</strong>.</div>'+
+      '<div style="margin-top:8px;">Pulsa <strong>\u2795 A\u00f1adir gimnasta</strong> para empezar.</div>'+
+      '</div>';
+    return;
+  }
+  var html='<div style="overflow-x:auto;"><table class="insc-table">'+
+    '<thead><tr><th>Foto</th><th>Tipo</th><th>Nombre / Conjunto</th><th>Categor\u00eda</th><th>Aparato(s)</th><th>\ud83c\udfb5</th><th></th></tr></thead><tbody>';
+  mis.forEach(function(r){
+    var foto=r.photo
+      ?'<img src="'+r.photo+'" style="width:38px;height:38px;object-fit:cover;border-radius:6px;display:block;">'
+      :'<div style="width:38px;height:38px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:18px;">\ud83d\udc64</div>';
+    var tipo=r.tipo==='conjunto'
+      ?'<span class="badge badge-conj">Conjunto</span>'
+      :'<span class="badge badge-ind">Individual</span>';
+    var nombre=r.tipo==='conjunto'
+      ?(r.conjuntoName||'\u2014')
+      :((r.name||'')+(r.surname?' '+r.surname:''));
+    var cat=r.category||'\u2014';
+    var ap=[r.aparato1,r.aparato2].filter(Boolean).join(' + ')||r.discipline||'\u2014';
+    var mus=r.musicName?'<span style="color:var(--accent);">\ud83c\udfb5</span>':'\u2014';
+    html+='<tr>'+
+      '<td>'+foto+'</td>'+
+      '<td>'+tipo+'</td>'+
+      '<td><strong>'+esc(nombre)+'</strong></td>'+
+      '<td style="font-size:12px;">'+esc(cat)+'</td>'+
+      '<td style="font-size:12px;white-space:nowrap;">'+esc(ap)+'</td>'+
+      '<td>'+mus+'</td>'+
+      '<td><button class="btn btn-danger btn-sm" onclick="clubDelInsc(this.dataset.id)" data-id="'+r.id+'">🗑</button></td>'+
+      '</tr>';
+  });
+  html+='</tbody></table></div>';
+  document.getElementById('cd-list').innerHTML=html;
+}
+
+function clubAddGimnasta(){
+  if(!clubSession)return;
+  window._fromClub=true;
+  showSection('inscripcion');
+  document.getElementById('insc-ok').style.display='none';
+  document.getElementById('insc-form-wrap').style.display='';
+  document.getElementById('ok-club-btn').style.display='none';
+  setTimeout(function(){
+    var ci=document.getElementById('i-club');
+    if(ci){ci.value=clubSession.nombre;ci.readOnly=true;ci.style.opacity='.6';}
+    var ei=document.getElementById('i-email');
+    if(ei&&!ei.value)ei.value=clubSession.email;
+  },30);
+  window.scrollTo(0,0);
+}
+
+function volverAlClub(){
+  window._fromClub=false;
+  var ci=document.getElementById('i-club');
+  if(ci){ci.readOnly=false;ci.style.opacity='';}
+  showSection('club');
+  renderClubDash();
+}
+
+function clubDelInsc(id){
+  if(!confirm('\u00bfEliminar esta inscripci\u00f3n?'))return;
+  var r=inscripciones.find(function(x){return x.id===id;});
+  if(!r)return;
+  if((r.club||'').toLowerCase()!==clubSession.nombre.toLowerCase()){
+    alert('Solo puedes eliminar inscripciones de tu club.');return;
+  }
+  inscripciones=inscripciones.filter(function(x){return x.id!==id;});
+  persistInsc();
+  deleteMusic(r.id);
+  renderClubDash();
+}
+
+/* ════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════ */
+loadCfg();
+loadInsc();
+loadRes();
+renderInicio();
+</script>
+</body>
+</html>
